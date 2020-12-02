@@ -1,10 +1,7 @@
 import streamlit as st
 import pandas as pd
-import base64
 import matplotlib.pyplot as plt
-import seaborn as sns
 import numpy as np
-# import yfinance as yf
 import quandl
 import plotly.graph_objects as go
 from plotly import tools
@@ -16,9 +13,7 @@ import plotly.express as px
 st.title('Stock Price Dashboard')
 
 st.markdown("""
-This app retrieves the list of the **S&P 500** (from Wikipedia) and its corresponding **stock closing price** (year-to-date)!
-* **Python libraries:** base64, pandas, streamlit, numpy, matplotlib, seaborn
-* **Data source:** [Wikipedia](https://en.wikipedia.org/wiki/List_of_S%26P_500_companies).
+Select the Stock and explore an interactive graph
 """)
 
 stock = st.selectbox('Select the Stock', [None,'RELIANCE', 'HDFCBANK', 'ADANIPORTS', 'ITC', 'SBI', 'IOC', 'RBLBANK'])
@@ -32,8 +27,8 @@ stock_map = {
     'IOC':"BSE/BOM540065", 
     'RBLBANK':"BSE/BOM540065"
 }
-# Web scraping of S&P 500 data
-#
+
+
 if stock is not None:
     # @st.cache
     def get_data(stock_code):
