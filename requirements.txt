@@ -4,5 +4,5 @@ streamlit
 matplotlib
 quandl
 plotly
-nsepy
+yfinance
 datetime
