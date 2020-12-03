@@ -16,8 +16,16 @@ from plotly.subplots import make_subplots
 st.title('Stock Price Dashboard')
 
 st.markdown("""
-Select the Stock and explore an interactive graph
+This is Live Stock data visuals.
+Select the Stock-exchange as well as stock and explore interactive Graph
+There are 4 visuals available:
+
+1. Candle-Stick
+2. Moving Average
+3. Relative Strength Index (RSI)
+4. Moving Average Convergence Divergence (MACD)
 """)
+st.write('**Hover** over the Graphs to explore the details')
 stock_exchange = st.selectbox('Select the Stock Exchange', [None,'National Stock Exchange', 'Bombay Stock Exchange'])
 
 stock = st.selectbox('Select the Stock', [None,'RELIANCE', 'HDFCBANK', 'ADANIPORTS', 'ITC', 'SBI', 'IOC', 'RBLBANK'])
