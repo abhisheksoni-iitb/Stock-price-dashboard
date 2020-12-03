@@ -21,12 +21,15 @@ stock_exchange = st.selectbox('Select the Stock Exchange', [None,'National Stock
 
 stock = st.selectbox('Select the Stock', [None,'RELIANCE', 'HDFCBANK', 'ADANIPORTS', 'ITC', 'SBI', 'IOC', 'RBLBANK'])
 
-
-def get_price_history(ticker, sdate, edate):
-    data = []
-    data = yf.download(ticker, start=sdate, end=edate,rounding=True)
-    return (data)
-
+stock_map = {
+    'RELIANCE':"BSE/BOM500325", 
+    'HDFCBANK':"BSE/BOM500180", 
+    'ADANIPORTS':"BSE/BOM532921", 
+    'ITC':"BSE/BOM500875", 
+    'SBI':"BSE/BOM500112", 
+    'IOC':"BSE/BOM540065", 
+    'RBLBANK':"BSE/BOM540065"
+}
 
 def plots(df):
     cndlstck = go.Candlestick(
@@ -82,26 +85,45 @@ def plots(df):
 if stock_exchange is not None:
     if (stock is not None) and (stock_exchange == 'Bombay Stock Exchange'):
 
-        stock_map = {
-                    'RELIANCE':"RELIANCE.BO", 
-                    'HDFCBANK':"HDFCBANK.BO", 
-                    'ADANIPORTS':"ADANIPORTS.BO", 
-                    'ITC':"ITC.BO", 
-                    'SBI':"SBIN.BO", 
-                    'IOC':"IOC.BO", 
-                    'RBLBANK':"RBLBANK.BO"
-                }
+        def get_data(stock_code):
+            df = quandl.get(stock_code, authtoken="_j-x2o8Gk93gkkqyE6tG")
 
+            #cleaning the data
+            features_to_drop = ['No. of Shares','Total Turnover', 'No. of Trades','Spread H-L', 'Spread C-O']
+            df.drop(features_to_drop,1,inplace=True)
+            df.rename(columns = {'WAP': 'Volume' },
+                    inplace = True)
+            # df['Volume'] = df['WAP']
+            # df.drop(['WAP'],1, inplace = True)
+            df.dropna(inplace=True)
+            return df
 
-        df = get_price_history(stock_map[stock], date(2016,1,1), datetime.datetime.now().date())
-        st.dataframe(df[::-1],width=1000)
+        df = get_data(stock_map[stock])
 
+        st.header('Comapny Stock History')
+        st.write('Data Dimension: ' + str(df.shape[0]) + ' rows and ' + str(df.shape[1]) + ' columns.')
+        df2 = df.round(decimals=2)
+        # df2 = df2*100
+        # df2 = df2.astype('int32')
+        # df2 = df2/100
+        # for cols in df2.columns:
+        #     df2[cols]=df2[cols].round(decimals=2)
+        # df2 = df2.round(decimals=1)
+        st.dataframe(df2[::-1],width=1000)
+
+        
+            # fig.update_layout(rangeslider=dict(visible=True))
+            #   fig.show()
+        # df2 = df[df.index >]
         fig = plots(df)
         st.plotly_chart(fig)
 
     elif (stock is not None) and (stock_exchange ==  'National Stock Exchange'):
 
-        
+        def get_price_history(ticker, sdate, edate):
+            data = []
+            data = yf.download(ticker, start=sdate, end=edate,rounding=True)
+            return (data)
 
         stock_map = {
                     'RELIANCE':"RELIANCE.NS", 
@@ -113,7 +135,7 @@ if stock_exchange is not None:
                     'RBLBANK':"RBLBANK.NS"
                 }
     
-        df = get_price_history(stock_map[stock], date(2016,1,1), datetime.datetime.now().date())
+        df = get_price_history(stock_map[stock], date(2015,1,1), datetime.datetime.now().date())
         st.dataframe(df[::-1],width=1000)
 
         fig = plots(df)
