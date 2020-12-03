@@ -4,4 +4,5 @@ streamlit
 matplotlib
 quandl
 plotly
-nsetools 
+nsepy
+datetime
