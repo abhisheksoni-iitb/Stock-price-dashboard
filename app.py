@@ -14,10 +14,11 @@ from plotly.subplots import make_subplots
 
 
 st.title('Stock Price Dashboard')
-
+st.subheader('Creater: Abhishek Soni')
 st.markdown("""
 This is Live Stock data visuals.
-Select the Stock-exchange as well as stock and explore interactive Graph
+Select the Stock-exchange as well as stock and explore interactive Graph.
+
 There are 4 visuals available:
 
 1. Candle-Stick
