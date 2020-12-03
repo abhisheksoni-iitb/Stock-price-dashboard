@@ -83,7 +83,7 @@ def plots(df):
 
 
 if stock_exchange is not None:
-    # @st.cache
+    @st.cache
 
     if (stock is not None) and (stock_exchange == 'Bombay Stock Exchange'):
 
